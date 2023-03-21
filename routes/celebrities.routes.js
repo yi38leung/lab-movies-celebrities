@@ -17,14 +17,14 @@ router.post("/celebrities/create", (req, res, next) => {
     catchPhrase: req.body.catchPhrase,
   };
   Celebrity.create(celebrityDetails)
-    .then(() => {
+    .then((celebrityFromDB) => {
       res.redirect("/celebrities");
     })
     .catch((err) => {
       console.error("Error connecting to DB", err);
     });
 });
-router.get("/celebrities", (req, res) => {
+router.get("/celebrities", (req, res, next) => {
   Celebrity.find()
     .then((celArr) => {
       res.render("/celebrities/celebrities.hbs", { celebrities: celArr });

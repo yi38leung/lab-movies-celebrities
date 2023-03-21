@@ -35,7 +35,10 @@ router.post("/movies/crete", (req, res, next) => {
 router.get("/movies", (req, res, next) => {
   Movie.find()
     .then((movieArr) => {
-      res.render("movies/movies");
+      const data = {
+        movies: movieArr,
+      };
+      res.render("movies/movies", data);
     })
     .catch((err) => {
       console.error("Error connecting to DB", err);
