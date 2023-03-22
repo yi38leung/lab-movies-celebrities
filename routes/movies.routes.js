@@ -1,11 +1,12 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
-const Movie = "../models/Movie.model";
+const express = require('express');
+const Movie = require('../models/Movie.model');
 const Celebrity = require("../models/Celebrity.model");
-const router = require("express").Router();
+const router = express.Router();
 
 // all your routes here
 //Iteration #6
-router.get("/movies/create", (req, res, next) => {
+router.get("/create", (req, res, next) => {
   Celebrity.find()
     .then((celArr) => {
       res.render("movies/new-movie");
@@ -32,11 +33,11 @@ router.post("/movies/crete", (req, res, next) => {
 });
 
 //Iteration #7: List all the movie
-router.get("/movies", (req, res, next) => {
+router.get('/movies', (req, res, next) => {
   Movie.find()
     .then((movieArr) => {
       const data = {
-        movies: movieArr,
+        movies: movieArr
       };
       res.render("movies/movies", data);
     })

@@ -1,38 +1,49 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
-const express = require("express");
-const Celebrity = require("../models/Celebrity.model");
+const express = require('express');
+const Celebrity = require('../models/Celebrity.model');
 const router = express.Router();
 
 // all your routes here
 
-//Iteration#3: Adding New Celebrities
-router.get("/celebrities/create", (req, res, next) => {
-  res.render("/celebrities/new-celebrity");
+//Iteration #3: Adding New Celebrities
+router.get("/create", (req, res, next) => {
+  res.render("celebrities/new-celebrity");
 });
 
-router.post("/celebrities/create", (req, res, next) => {
-  const celebrityDetails = {
+router.post("/create", (req, res) => {
+
+  const newCelebrity = {
     name: req.body.name,
     occupation: req.body.occupation,
-    catchPhrase: req.body.catchPhrase,
+    catchPhrase: req.body.catchPhrase
   };
-  Celebrity.create(celebrityDetails)
-    .then((celebrityFromDB) => {
-      res.redirect("/celebrities");
+  Celebrity.create(newCelebrity)
+    .then(() => {
+      res.redirect("/celebrities/celebrities");
     })
-    .catch((err) => {
-      console.error("Error connecting to DB", err);
-    });
-});
-router.get("/celebrities", (req, res, next) => {
-  Celebrity.find()
-    .then((celArr) => {
-      res.render("/celebrities/celebrities.hbs", { celebrities: celArr });
+    .catch(e => {
+      res.render("celebrities/new-celebrity");
     })
+})
 
-    .catch((err) => {
-      console.error("Error connecting to DB", err);
-    });
-});
+
+//Iteration #3: Listing Our Celebrities
+router.get('/celebrities', (req, res, next) => {
+  Celebrity.find()
+    .then(celebArr => {
+
+      const data = {
+        celebrities: celebArr
+      };
+      res.render("celebrities/celebrities", data);
+    })
+    .catch(e => {
+      console.log("Error acessing the list", e);
+      next(e);
+    })
+})
+
+
+
 
 module.exports = router;
